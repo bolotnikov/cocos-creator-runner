@@ -11,14 +11,27 @@ cc.Class({
         score: {
             default: null,
             type: cc.Label
+        },
+        music: {
+            default: null,
+            type: cc.AudioClip    
+        },
+        sound: {
+            default: null,
+            type: cc.AudioClip
         }
     },
 
     onLoad () {
+        if (!cc.audioEngine.isMusicPlaying()) {
+            cc.audioEngine.playMusic(this.music, true);
+        }
+
         this.enablePhyscis();
         Globals.score = 0;
 
         this.hero.on('score', () => {
+            cc.audioEngine.play(this.sound);
             ++Globals.score;
             this.score.string = Globals.score.toString();
         });
